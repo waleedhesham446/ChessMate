@@ -1,0 +1,7 @@
+<div class="boards-container">
+    <iframe id="board-1" [src]="chessUrl | safe" frameborder="0"></iframe>
+    
+    <iframe id="board-2" [src]="chessUrl | safe" frameborder="0"></iframe>
+</div>
+
+<button (click)="restartGame()">Restart</button>
