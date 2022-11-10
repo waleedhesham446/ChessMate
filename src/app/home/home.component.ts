@@ -26,6 +26,9 @@ export class HomeComponent implements OnInit {
     this.initMainListener();
   }
 
+  /**
+   * Initialize the game and the 2 boards
+  **/
   initGame(): void {
     this.chessBoard1 = (document.getElementById('board-1') as HTMLIFrameElement);
     this.chessBoard2 = (document.getElementById('board-2') as HTMLIFrameElement);
@@ -47,6 +50,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * Initialize the main listener to listen for boards messages
+  **/
   initMainListener(): void {
     window.addEventListener("message", (event: MessageEvent) => {
       
@@ -58,11 +64,18 @@ export class HomeComponent implements OnInit {
     }, false);
   }
 
+  /**
+   * Get previous uncompleted game FEN (if exists)
+  **/
   getPreviousGame(): void {
     this.previousFEN = localStorage.getItem('FEN') as string;
     localStorage.removeItem('FEN');
   }
   
+  /**
+   * Transfere the move from one player to the other
+   * @param param0 contains the player and the move
+  **/
   moveHandler({ player, move }: MoveAction): void {
 
     const applyMove: ApplyMove = {
@@ -78,6 +91,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Show alert with the winner and ask whether to create a new game 
+   * @param winner either black or white
+   * @returns Promise of nothing
+  **/
   async checkRestart(winner: number): Promise<void> {
     const result: SweetAlertResult = await Swal.fire({
       title: `${winner} player won`,
@@ -93,6 +111,9 @@ export class HomeComponent implements OnInit {
     this.restartGame();
   }
 
+  /**
+   * Reset the boards and restart the game
+  **/
   restartGame(): void {
     this.chessBoard1.contentWindow?.postMessage({ type: MessageType.RESTART });
     this.chessBoard2.contentWindow?.postMessage({ type: MessageType.RESTART });

@@ -37,13 +37,22 @@ export class ChessBoardComponent implements OnInit {
     this.handleBoardSize();
   }
 
+  /**
+   * Initialize the board
+   * @param role either 1 or 2
+   * @param source the main window source to send messages back
+   * @param FEN previous uncompleted game FEN (if exists)
+  **/
   initBoard(role: number, source: MessageEventSource, FEN: string): void {
     this.role = role;
     this.main = source;
     this.checkRole(FEN);
   }
   
-  handleUnCompletedGame() {
+  /**
+   * Store the game details if it's not completed
+  **/
+  handleUnCompletedGame(): void {
     addEventListener('beforeunload', () => {
       //  To save the state only one time
       if (this.gameOver || this.role !== 1) return;
@@ -57,6 +66,9 @@ export class ChessBoardComponent implements OnInit {
     });
   }
 
+  /**
+   * Handle the size of the tile depending on the size of window
+  **/
   handleBoardSize(): void {
     if (window.innerWidth < 500) this.tileSize = 350;
 
@@ -66,6 +78,10 @@ export class ChessBoardComponent implements OnInit {
     });
   }
 
+  /**
+   * Handler for move action
+   * @param event 
+  **/
   move(event: MoveChange): void {
     this.main.postMessage({
       type: MessageType.MOVE,
@@ -76,20 +92,34 @@ export class ChessBoardComponent implements OnInit {
     this.disableBoard();
   }
 
+  /**
+   * Apply the move that happened in the other board
+   * @param move 
+   */
   applyMove(move: any): void {
     this.board.move(move?.move);
     this.enableBoard();
     this.checkCheckmate(move);
   }
 
+  /**
+   * Enables move action
+  **/
   enableBoard(): void {
     this.disabled = false;
   }
 
+  /**
+   * Disables move action
+  **/
   disableBoard(): void {
     this.disabled = true;
   }
 
+ /**
+  * Check the checkmate case
+  * @param move last move
+  */
   checkCheckmate(move: MoveChange): void {
     if (move.checkmate) {
       this.gameOver = true;
@@ -100,6 +130,10 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
+  /**
+   * Setup each board depending on its role
+   * @param FEN previous uncompleted game FEN (if exists)
+  **/
   checkRole(FEN?: string): void {
     if (this.role === 1) {
       this.disabled = false;
@@ -123,6 +157,9 @@ export class ChessBoardComponent implements OnInit {
     }
   }
 
+  /**
+   * Reset the board
+  **/
   restart(): void {
     this.gameOver = false;
     this.board.reset();
