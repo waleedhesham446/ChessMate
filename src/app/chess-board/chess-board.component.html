@@ -3,5 +3,6 @@
     (moveChange)="move($event)"
     [lightDisabled]="disabled || role === 2"
     [darkDisabled]="disabled || role === 1"
+    [size]="tileSize"
 ></ngx-chess-board>
 <h3 *ngIf="role">Player #{{ role }}</h3>

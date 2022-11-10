@@ -12,7 +12,8 @@
     iframe {
         width: 45%;
         min-height: 600px;
-        min-width: 550px;
+        min-width: 500px;
+        margin: 0 10px;
     }
 }
 
@@ -27,3 +28,15 @@ button {
     border-radius: 10px;
     cursor: pointer;
 }
+
+@media screen and (max-width: 500px){
+    iframe {
+        width: 90% !important;
+        min-width: 350px !important;
+        min-height: 450px !important;
+    }
+
+    :host {
+        margin-top: 50px !important;
+    }
+  }

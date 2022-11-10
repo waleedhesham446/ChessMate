@@ -15,6 +15,7 @@ export class ChessBoardComponent implements OnInit {
   public disabled: boolean = true;
   private gameOver: boolean = false;
   private isPreviousGame: boolean = false;
+  public tileSize: number = 500;
 
   @ViewChild('board', {static: false}) board: NgxChessBoardView;
   
@@ -32,6 +33,8 @@ export class ChessBoardComponent implements OnInit {
     });
 
     this.handleUnCompletedGame();
+
+    this.handleBoardSize();
   }
 
   initBoard(role: number, source: MessageEventSource, FEN: string): void {
@@ -51,6 +54,15 @@ export class ChessBoardComponent implements OnInit {
       
       const FEN = this.board.getFEN();
       localStorage.setItem('FEN', FEN);
+    });
+  }
+
+  handleBoardSize(): void {
+    if (window.innerWidth < 500) this.tileSize = 350;
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 500) this.tileSize = 350;
+      else this.tileSize = 500;
     });
   }
 
